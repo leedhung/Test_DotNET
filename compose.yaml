@@ -1,17 +1,35 @@
 ﻿version: '3.8'
 
 services:
-  mysqldb:
+  # 1. THÙNG CHỨA DATABASE (MySQL)
+  shoptech_db:
     image: mysql:8.0
-    container_name: shop_mysql_db
-    restart: always
+    container_name: shoptech_mysql_container
     environment:
-      MYSQL_ROOT_PASSWORD: KhongCoPassDau123!
-      MYSQL_DATABASE: ShopTechDb
+      MYSQL_ROOT_PASSWORD: MySecretPassword123!
+      MYSQL_DATABASE: ShopTechDB
     ports:
       - "3306:3306"
     volumes:
-      - db_data:/var/lib/mysql
+      - shoptech_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pMySecretPassword123!"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+  # 2. THÙNG CHỨA WEB (.NET)
+  shoptech_web:
+    build:
+      context: .
+      dockerfile: ShopTech_Web/Dockerfile
+    container_name: shoptech_web_container
+    ports:
+      - "8080:8080"
+    depends_on:
+      shoptech_db:
+        condition: service_healthy
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=shoptech_db;Port=3306;Database=ShopTechDB;Uid=root;Pwd=MySecretPassword123!;
 
 volumes:
-  db_data:
+  shoptech_mysql_data:
