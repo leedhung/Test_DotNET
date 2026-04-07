@@ -1,8 +1,148 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<ShopTech_Web.Models.Product>
+
+@{
+    ViewData["Title"] = "Trang chủ - ShopTech";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+    /* Reset một số margin thừa của container mặc định trong _Layout */
+    .container, .container-fluid { padding: 0 !important; max-width: 100%; }
+    
+    .absolute-text { position: absolute; top: 86px; left: 80px; color: #FFFFFF; font-size: 48px; font-weight: bold; width: 499px; }
+    .absolute-text2 { position: absolute; bottom: 83px; left: 80px; color: #B3C5FF; font-size: 18px; width: 506px; }
+    .box { width: 207px; height: 60px; }
+    .box2 { width: 44px; height: 45px; background: #FFFFFFE3; border-radius: 9999px; }
+    .button { display: flex; flex-direction: column; align-items: flex-start; background: #6CF8BB; border-radius: 9999px; border: none; padding: 9px 16px; margin-bottom: 32px; text-align: left; }
+    .button2 { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-start; background: #FFFFFF00; border-radius: 12px; border: none; padding: 21px 33px; box-shadow: 0px 8px 10px #0050CB33; text-align: left; transition: 0.3s; }
+    .button2:hover { background: #0050CB11; }
+    .button3 { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-start; background: #6CF8BB; border-radius: 4px; border: none; padding: 7px 9px; text-align: left; font-weight: bold; }
+    .button4 { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-start; background: #CC4204; border-radius: 4px; border: none; padding: 7px 9px; text-align: left; font-weight: bold; }
+    .button5 { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-start; background: #FFFFFF; border-radius: 12px; border: none; padding: 23px 33px; text-align: left; font-weight: bold; transition: 0.3s; }
+    .button5:hover { background: #f1f1f1; }
+    .column { align-self: stretch; padding-top: 50px; }
+    .column2 { flex: 1; display: flex; flex-direction: column; align-items: flex-start; }
+    .column3 { align-self: stretch; padding-top: 112px; padding-left: 48px; padding-right: 48px; margin-bottom: 48px; }
+    .column4 { flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-start; }
+    .column5 { flex: 1; display: flex; flex-direction: column; background: #FFFFFF; border-radius: 12px; padding: 16px; gap: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); transition: transform 0.3s; min-width: 250px;}
+    .column5:hover { transform: translateY(-5px); }
+    .column6 { align-self: stretch; }
+    .contain-home { display: flex; flex-direction: column; background: #FFFFFF; font-family: system-ui, -apple-system, sans-serif; }
+    .image { width: 15px; height: 16px; object-fit: fill; }
+    .image2 { height: 520px; flex: 1; object-fit: cover; border-radius: 20px; }
+    .image3 { width: 20px; height: 14px; object-fit: fill; }
+    .row-view { align-self: stretch; display: flex; align-items: center; background: linear-gradient(180deg, #F3F4F5, #F3F4F500, #F3F4F500); padding: 33px 48px; margin-bottom: 48px; margin-left: 48px; margin-right: 48px; gap: 48px; border-radius: 24px; }
+    .row-view2 { align-self: stretch; display: flex; justify-content: flex-start; align-items: center; gap: 24px; }
+    .row-view3 { flex-shrink: 0; display: flex; align-items: center; padding-top: 4px; padding-bottom: 4px; gap: 9px; cursor: pointer; }
+    .row-view4 { align-self: stretch; display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 48px; }
+    .row-view5 { flex-shrink: 0; display: flex; align-items: center; padding-top: 5px; padding-bottom: 5px; margin-top: 40px; gap: 9px; cursor: pointer; }
+    
+    /* Đổi hiển thị hàng sản phẩm thành flex wrap để tự rớt dòng nếu có nhiều hơn 4 sản phẩm */
+    .row-view6 { align-self: stretch; display: flex; flex-wrap: wrap; align-items: center; margin-bottom: 80px; gap: 32px; }
+    
+    .row-view7 { align-self: stretch; display: flex; justify-content: space-between; align-items: center; }
+    .text { color: #00714D; font-size: 12px; font-weight: bold; }
+    .text2 { color: #191C1D; font-size: 72px; font-weight: bold; line-height: 1.1; }
+    .text3 { color: #424656; font-size: 18px; line-height: 1.6; }
+    .text4 { color: #0050CB; font-size: 18px; font-weight: bold; }
+    .text5 { color: #191C1D; font-size: 16px; font-weight: bold; }
+    .text6 { color: #191C1D; font-size: 36px; font-weight: bold; }
+    .text7 { color: #424656; font-size: 16px; }
+    .text8 { color: #0050CB; font-size: 16px; font-weight: bold; }
+    .text9 { color: #191C1D; font-size: 18px; font-weight: bold; margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .text10 { color: #424656; font-size: 14px; margin-bottom: 16px; }
+    .text11 { color: #0050CB; font-size: 20px; font-weight: bold; }
+    .text12 { color: #006C49; font-size: 12px; font-weight: bold; }
+    .text13 { color: #FFFFFF; font-size: 12px; font-weight: bold; }
+    .view { align-self: stretch; background: #F8F9FA; padding-bottom: 80px; }
+    .view2 { align-self: stretch; display: flex; flex-direction: column; align-items: flex-start; margin-bottom: 24px; }
+    .view3 { display: flex; flex-direction: column; align-items: flex-start; padding-bottom: 5px; margin-bottom: 40px; }
+    
+    /* CLASS CHUNG CHO ẢNH SẢN PHẨM */
+    .product-img-container { 
+        align-self: stretch; display: flex; flex-direction: column; align-items: flex-end; 
+        border-radius: 8px; padding-top: 195px; padding-right: 17px; 
+        background-size: cover; background-position: center; 
+        margin-bottom: 16px; background-color: #f1f3f5;
+    }
+</style>
+
+<div class="contain-home">
+    <div class="view">
+        <div class="column">
+            <div class="row-view">
+                <div class="column2">
+                    <button class="button">
+                        <span class="text">New Release 2024</span>
+                    </button>
+                    <div class="view2">
+                        <span class="text2">Precision<br/>Redefined.</span>
+                    </div>
+                    <div class="view3">
+                        <span class="text3">
+                            Experience the tactile mastery of the K-Series<br/>Mechanical Keyboard. Crafted from aerospace<br/>aluminum with whisper-quiet linear switches.
+                        </span>
+                    </div>
+                    <div class="row-view2">
+                        <button class="button2">
+                            <span class="text4">Explore K-Series</span>
+                        </button>
+                        <div class="row-view3">
+                            <span class="text5">View Specs</span>
+                            <img src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/6fc72edc-82a5-4c41-9a7d-8834921a2921" class="image" />
+                        </div>
+                    </div>
+                </div>
+                <img src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/37acb1a0-d2f8-4866-9bcc-c8f396bbfec0" class="image2" />
+            </div>
+
+            <div class="column3">
+                <div class="row-view4">
+                    <div class="column4">
+                        <span class="text6">The Essentials</span>
+                        <span class="text7">Selected for design, performance, and durability.</span>
+                    </div>
+                    <div class="row-view5">
+                        <span class="text8">View All Collections</span>
+                        <img src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/4d6d077f-7799-42f2-8016-e4b2534139ff" class="image3" />
+                    </div>
+                </div>
+
+                <div class="row-view6">
+                    @if (!Model.Any())
+                    {
+                        <div class="w-100 text-center py-5 text-muted">
+                            <h3>Chưa có sản phẩm nào được bày bán.</h3>
+                        </div>
+                    }
+
+                    @foreach (var item in Model)
+                    {
+                        var bgImage = string.IsNullOrEmpty(item.ImageUrl) ? "https://via.placeholder.com/400x300?text=No+Image" : item.ImageUrl;
+
+                        <div class="column5">
+                            <div class="product-img-container" style="background-image: url('@bgImage');">
+                                <div class="box2"></div>
+                            </div>
+                            <div class="column6">
+                                <div class="text9" title="@item.Name">@item.Name</div>
+                                <div class="text10">@item.Category</div>
+                                <div class="row-view7">
+                                    <span class="text11">$@item.Price.ToString("N2")</span>
+                                    
+                                    @if (item.Stock > 0)
+                                    {
+                                        <button class="button3"><span class="text12">IN STOCK</span></button>
+                                    }
+                                    else
+                                    {
+                                        <button class="button4"><span class="text13">SOLD OUT</span></button>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

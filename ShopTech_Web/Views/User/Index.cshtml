@@ -1,0 +1,118 @@
+﻿@model IEnumerable<ShopTech_Web.ViewModels.UserViewModel>
+
+@{
+    ViewData["Title"] = "Quản lý Người Dùng";
+    Layout = null; 
+}
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<div class="flex flex-col bg-white min-h-screen">
+	<div class="self-stretch bg-[#F8F9FA] flex-1">
+		<div class="flex items-stretch self-stretch min-h-screen">
+			
+            <div class="flex flex-col shrink-0 items-start bg-slate-50 p-4 gap-2 w-64 border-r border-slate-200">
+				<div class="flex items-center pb-8 w-full">
+					<button class="flex flex-col shrink-0 items-start bg-[#0050CB] text-left py-2.5 px-[11px] ml-4 mr-3 rounded-[9999px] border-0">
+						<img src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/24786413-b2b1-4b45-996d-8bc62cab96aa" class="w-[18px] h-5 rounded-[9999px] object-fill" />
+					</button>
+					<div class="flex flex-col shrink-0 items-start gap-1">
+						<span class="text-slate-900 text-lg font-bold">Admin Panel</span>
+						<span class="text-slate-500 text-[10px]">System Overview</span>
+					</div>
+				</div>
+				
+                <div class="flex flex-col items-start flex-1 gap-2 w-full">
+                    <a asp-controller="Product" asp-action="Index" class="flex items-center py-2 px-2 w-full cursor-pointer hover:bg-slate-100 rounded-lg text-decoration-none">
+						<img src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/720ea77f-7320-4ece-bbed-500c7efe4e41" class="w-5 h-5 ml-2 mr-3 object-fill grayscale opacity-60" />
+						<span class="text-slate-500 text-sm">Product Management</span>
+					</a>
+                    <div class="flex items-center bg-white py-2 px-2 rounded-lg w-full shadow-sm border border-slate-100">
+						<img src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/c30cf4a1-8ad3-47e6-90af-20f9a21710a0" class="w-[22px] h-4 ml-2 mr-3 object-fill" />
+						<span class="text-blue-600 text-sm font-bold">User Management</span>
+					</div>
+				</div>
+
+				<div class="flex flex-col items-start pt-4 gap-2 border-t border-solid border-t-slate-200 w-full mt-auto">
+                    <form asp-controller="Account" asp-action="Logout" method="post" class="w-full">
+					    <button type="submit" class="flex items-center py-2 px-2 w-full cursor-pointer hover:bg-slate-100 rounded-lg bg-transparent border-0 text-left">
+						    <img src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/80435310-37c6-45f4-a2e2-60bcd20138da" class="w-[18px] h-[18px] ml-2 mr-3 object-fill" />
+						    <span class="text-slate-500 text-sm text-red-600 font-bold">Logout</span>
+					    </button>
+                    </form>
+				</div>
+			</div>
+
+            <div class="flex-1 bg-[#F3F4F5] pb-10 overflow-y-auto">
+				<div class="flex justify-between items-center self-stretch bg-[#F8F9FACC] py-3.5 px-10 mb-10 shadow-sm">
+					<div class="flex flex-col shrink-0 items-start">
+						<span class="text-[#191C1D] text-2xl font-bold">User Management</span>
+						<span class="text-[#424656] text-sm">Quản lý danh sách thành viên và phân quyền hệ thống.</span>
+					</div>
+					<div class="flex shrink-0 items-center gap-4">
+                        <div class="flex shrink-0 items-center bg-white py-2 px-3.5 gap-3 rounded-lg border border-slate-200">
+							<span class="text-slate-500 font-bold text-sm">Total Users: @Model.Count()</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="flex flex-col self-stretch mb-10 mx-10">
+					<div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+                        
+                        <div class="flex items-center bg-slate-50 border-b border-slate-200">
+							<div class="w-16 py-4 pl-6 font-bold text-slate-500 text-[11px] uppercase tracking-wider">Avatar</div>
+							<div class="flex-1 py-4 px-6 font-bold text-slate-500 text-[11px] uppercase tracking-wider">Tên & Email</div>
+							<div class="w-48 py-4 px-4 font-bold text-slate-500 text-[11px] uppercase tracking-wider">Quyền (Role)</div>
+							<div class="w-32 py-4 px-6 font-bold text-slate-500 text-[11px] uppercase tracking-wider text-center">Hành động</div>
+						</div>
+						
+                        <div class="flex flex-col">
+                            @foreach(var user in Model)
+                            {
+                                <div class="flex items-center border-b border-slate-100 hover:bg-slate-50 transition">
+                                    <div class="w-16 py-4 pl-6 flex justify-center">
+                                        <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-500">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex-1 py-4 px-6 flex flex-col">
+                                        <span class="text-[#191C1D] text-sm font-bold">@user.FullName</span>
+                                        <span class="text-[#424656] text-xs mt-1">@user.Email</span>
+                                    </div>
+                                    
+                                    <div class="w-48 py-4 px-4">
+                                        @if(user.Roles.Contains("Admin"))
+                                        {
+                                            <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-bold border border-red-200">Admin</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold border border-blue-200">User</span>
+                                        }
+                                    </div>
+                                    
+                                    <div class="w-32 py-4 px-6 flex justify-center items-center">
+                                        @if(user.Email != "admin@shoptech.com")
+                                        {
+                                            <form asp-action="Delete" asp-route-id="@user.Id" method="post" onsubmit="return confirm('Cảnh báo: Bạn có chắc muốn xóa vĩnh viễn tài khoản @user.Email?');" class="m-0">
+                                                <button type="submit" class="bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1.5 rounded text-xs font-bold transition border-0 cursor-pointer">
+                                                    Xóa
+                                                </button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-slate-400 text-xs italic">Protected</span>
+                                        }
+                                    </div>
+                                </div>
+                            }
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

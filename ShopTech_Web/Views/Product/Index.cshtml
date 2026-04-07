@@ -1,0 +1,208 @@
+﻿@model IEnumerable<ShopTech_Web.Models.Product>
+
+@{
+    ViewData["Title"] = "Quản lý Sản phẩm";
+    Layout = null; // Tạm tắt Layout chung vì bản này đã có Sidebar
+}
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<div class="flex flex-col bg-white min-h-screen">
+	<div class="self-stretch bg-[#F8F9FA] flex-1">
+		<div class="flex items-stretch self-stretch min-h-screen">
+			
+			<div class="flex flex-col shrink-0 items-start bg-slate-50 p-4 gap-2 w-64 border-r border-slate-200">
+				<div class="flex items-center pb-8 w-full">
+					<button class="flex flex-col shrink-0 items-start bg-[#0050CB] text-left py-2.5 px-[11px] ml-4 mr-3 rounded-[9999px] border-0">
+						<img src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/24786413-b2b1-4b45-996d-8bc62cab96aa" class="w-[18px] h-5 rounded-[9999px] object-fill" />
+					</button>
+					<div class="flex flex-col shrink-0 items-start gap-1">
+						<span class="text-slate-900 text-lg font-bold">Admin Panel</span>
+						<span class="text-slate-500 text-[10px]">System Overview</span>
+					</div>
+				</div>
+				
+				<div class="flex flex-col items-start flex-1 gap-2 w-full">
+					<div class="flex items-center bg-white py-2 px-2 rounded-lg w-full shadow-sm border border-slate-100">
+						<img src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/720ea77f-7320-4ece-bbed-500c7efe4e41" class="w-5 h-5 ml-2 mr-3 rounded-lg object-fill" />
+						<span class="text-blue-600 text-sm font-bold">Product Management</span>
+					</div>
+					<a asp-controller="User" asp-action="Index" class="flex items-center py-2 px-2 w-full cursor-pointer hover:bg-slate-100 rounded-lg no-underline block">
+						<img src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/c30cf4a1-8ad3-47e6-90af-20f9a21710a0" class="w-[22px] h-4 ml-2 mr-3 object-fill" />
+						<span class="text-slate-500 text-sm">User Management</span>
+					</a>
+				</div>
+
+				<div class="flex flex-col items-start pt-4 gap-2 border-t border-solid border-t-slate-200 w-full mt-auto">
+					<div class="flex items-center py-2 px-2 w-full cursor-pointer hover:bg-slate-100 rounded-lg">
+						<img src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/fc906f2e-ce4f-4ce9-aa4f-3ae8ead34e51" class="w-5 h-5 ml-2 mr-3 object-fill" />
+						<span class="text-slate-500 text-sm">Settings</span>
+					</div>
+					<form asp-controller="Account" asp-action="Logout" method="post" class="w-full">
+						<button type="submit" class="flex items-center py-2 px-2 w-full cursor-pointer hover:bg-slate-100 rounded-lg bg-transparent border-0 text-left">
+							<img src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/80435310-37c6-45f4-a2e2-60bcd20138da" class="w-[18px] h-[18px] ml-2 mr-3 object-fill" />
+							<span class="text-slate-500 text-sm">Logout</span>
+						</button>
+					</form>
+				</div>
+			</div>
+
+			<div class="flex-1 bg-[#F3F4F5] pb-10 overflow-y-auto">
+				<div class="flex justify-between items-center self-stretch bg-[#F8F9FACC] py-3.5 px-10 mb-10 shadow-sm">
+					<div class="flex flex-col shrink-0 items-start">
+						<span class="text-[#191C1D] text-2xl font-bold">Product Management</span>
+						<span class="text-[#424656] text-sm">Manage your digital inventory and stock levels.</span>
+					</div>
+					<div class="flex shrink-0 items-center gap-4">
+						<form asp-action="Index" method="get" class="flex shrink-0 items-center bg-white py-2 px-3.5 gap-3 rounded-lg border border-slate-200">
+							<button type="submit" class="bg-transparent border-0 cursor-pointer">
+								<img src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/d91de833-409a-48e2-97b7-336c0e33f508" class="w-2.5 h-2.5 object-fill" />
+							</button>
+							<input type="text" name="searchString" value="@ViewData["CurrentFilter"]" placeholder="Search products..." class="text-gray-600 text-sm outline-none border-none bg-transparent w-48" />
+						</form>
+                        
+						<button onclick="document.getElementById('createModal').classList.remove('hidden')" class="flex shrink-0 items-center bg-blue-600 hover:bg-blue-700 transition px-6 py-3 gap-2 rounded-lg text-decoration-none shadow-md border-0 cursor-pointer">
+							<img src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/3a3d0721-6fe3-4d1c-9554-9bce4965100b" class="w-3.5 h-3.5 rounded-lg object-fill" />
+							<span class="text-white text-sm font-bold">Add New Product</span>
+						</button>
+					</div>
+				</div>
+
+				<div class="flex flex-col self-stretch mb-10 mx-10 gap-10">
+                    
+					<div class="grid grid-cols-4 gap-6">
+						<div class="flex flex-col bg-white p-6 gap-2 rounded-xl shadow-sm border border-slate-100">
+							<div class="flex justify-between items-center self-stretch">
+								<span class="text-[#424656] text-xs font-bold uppercase tracking-wider">Total Products</span>
+								<img src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/dcadf457-f58d-44a0-b9c2-118d9cbe61dd" class="w-5 h-5 object-fill" />
+							</div>
+							<span class="text-[#191C1D] text-3xl font-bold pt-2">@Model.Count()</span>
+						</div>
+					</div>
+
+					<div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+                        
+						<div class="flex items-center bg-slate-50 border-b border-slate-200">
+							<div class="w-24 py-4 pl-6 font-bold text-slate-500 text-[11px] uppercase tracking-wider">ID</div>
+							<div class="w-20 py-4 px-2 font-bold text-slate-500 text-[11px] uppercase tracking-wider">Image</div>
+							<div class="flex-1 py-4 px-4 font-bold text-slate-500 text-[11px] uppercase tracking-wider">Name & Category</div>
+							<div class="w-32 py-4 px-4 font-bold text-slate-500 text-[11px] uppercase tracking-wider">Price</div>
+							<div class="w-32 py-4 px-4 font-bold text-slate-500 text-[11px] uppercase tracking-wider">Status</div>
+							<div class="w-40 py-4 px-6 font-bold text-slate-500 text-[11px] uppercase tracking-wider text-center">Actions</div>
+						</div>
+						
+						<div class="flex flex-col">
+							@if(!Model.Any())
+							{
+								<div class="py-8 text-center text-slate-500">
+									Chưa có sản phẩm nào. Hãy thêm sản phẩm đầu tiên!
+								</div>
+							}
+
+							@foreach(var item in Model)
+							{
+								<div class="flex items-center border-b border-slate-100 hover:bg-slate-50 transition">
+									<div class="w-24 py-4 pl-6 text-[#424656] text-sm">#PRO-@item.Id</div>
+                                    
+									<div class="w-20 py-4 px-2">
+										<img src="@item.ImageUrl" class="w-10 h-10 rounded-lg object-cover bg-slate-100" onerror="this.src='https://via.placeholder.com/150?text=No+Image'" />
+									</div>
+                                    
+									<div class="flex-1 py-4 px-4 flex flex-col">
+										<span class="text-[#191C1D] text-sm font-bold">@item.Name</span>
+										<span class="text-[#424656] text-[11px] mt-1">@item.Category</span>
+									</div>
+                                    
+									<div class="w-32 py-4 px-4 text-[#191C1D] text-sm font-bold">
+										$@item.Price.ToString("N2")
+									</div>
+                                    
+									<div class="w-32 py-4 px-4 flex items-center gap-2">
+										@if(item.IsSelling && item.Stock > 0)
+										{
+											<div class="bg-[#006C49] w-2 h-2 rounded-full"></div>
+											<span class="text-slate-700 text-xs">@item.Stock in stock</span>
+										}
+										else
+										{
+											<div class="bg-red-500 w-2 h-2 rounded-full"></div>
+											<span class="text-red-600 text-xs font-semibold">Out of stock</span>
+										}
+									</div>
+                                    
+									<div class="w-40 py-4 px-6 flex justify-center items-center gap-2">
+										<a asp-action="Edit" asp-route-id="@item.Id" class="bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded text-xs font-bold transition no-underline">
+											Edit
+										</a>
+										<form asp-action="Delete" asp-route-id="@item.Id" method="post" onsubmit="return confirm('Bạn có chắc muốn xóa @item.Name?');" class="m-0">
+											<button type="submit" class="bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1.5 rounded text-xs font-bold transition border-0">
+												Delete
+											</button>
+										</form>
+									</div>
+								</div>
+							}
+						</div>
+
+						<div class="flex justify-between items-center bg-slate-50 py-4 px-6 border-t border-slate-200">
+							<span class="text-[#424656] text-xs">Showing products</span>
+							<img src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/44e689d5-437b-4aeb-a063-ce78b38117bb" class="w-[152px] h-8 object-fill opacity-50" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="createModal" class="hidden fixed inset-0 bg-slate-900 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex justify-center items-center backdrop-blur-sm transition-all duration-300">
+    
+    <div class="relative bg-white rounded-xl shadow-2xl border border-slate-200 w-full max-w-2xl mx-4 p-8 transform transition-all">
+        
+        <div class="flex justify-between items-center pb-4 border-b border-slate-100 mb-6">
+            <h3 class="text-2xl font-bold text-slate-800">Thêm Sản Phẩm Mới</h3>
+            <button onclick="document.getElementById('createModal').classList.add('hidden')" class="text-slate-400 hover:text-red-500 bg-transparent border-0 cursor-pointer transition">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        
+        <form asp-action="Create" method="post" class="space-y-6">
+            <div class="grid grid-cols-2 gap-6">
+                <div class="col-span-2">
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Tên Sản Phẩm <span class="text-red-500">*</span></label>
+                    <input type="text" name="Name" required class="block w-full px-4 py-2 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Danh mục</label>
+                    <input type="text" name="Category" class="block w-full px-4 py-2 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Giá bán ($) <span class="text-red-500">*</span></label>
+                    <input type="number" step="0.01" name="Price" required class="block w-full px-4 py-2 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Số lượng kho <span class="text-red-500">*</span></label>
+                    <input type="number" name="Stock" required class="block w-full px-4 py-2 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition">
+                </div>
+                
+                <div class="col-span-2">
+                    <label class="block text-sm font-bold text-slate-700 mb-1">Link Ảnh (URL)</label>
+                    <input type="url" name="ImageUrl" placeholder="https://example.com/image.jpg" class="block w-full px-4 py-2 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition">
+                </div>
+            </div>
+            
+            <div class="flex items-center justify-end gap-3 pt-6 border-t border-slate-100 mt-6">
+                <button type="button" onclick="document.getElementById('createModal').classList.add('hidden')" class="px-5 py-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 font-bold text-sm border-0 bg-transparent rounded-lg cursor-pointer transition">
+                    Hủy bỏ
+                </button>
+                <button type="submit" class="px-5 py-2 border border-transparent rounded-lg shadow-md text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer transition">
+                    Thêm Sản Phẩm
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>

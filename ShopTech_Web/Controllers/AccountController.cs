@@ -21,6 +21,12 @@ public class AccountController : Controller
     [HttpGet]
     public IActionResult Register()
     {
+        // Nếu đã đăng nhập rồi thì "mời" về thẳng Trang chủ
+        if (User.Identity != null && User.Identity.IsAuthenticated)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+        
         return View();
     }
 
@@ -60,6 +66,12 @@ public class AccountController : Controller
     [HttpGet]
     public IActionResult Login()
     {
+        // Nếu đã đăng nhập rồi thì "mời" về thẳng Trang chủ
+        if (User.Identity != null && User.Identity.IsAuthenticated)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+        
         return View();
     }
 
